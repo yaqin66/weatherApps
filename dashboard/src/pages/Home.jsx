@@ -4,6 +4,7 @@ import { useWeather } from '../model/WeatherContext';
 import { PiThermometerColdBold } from "react-icons/pi";
 import { FaWind } from "react-icons/fa";
 import WeatherModel from '../model/WeatherModel';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const { selectedCityId } = useWeather();
@@ -11,6 +12,7 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { getWeatherIcon } = WeatherModel();
+
 
   useEffect(() => {
     const fetchWeatherData = async () => {
@@ -31,6 +33,8 @@ const Home = () => {
 
     fetchWeatherData();
   }, [selectedCityId]);
+
+
 
   return (
     <div className="container mx-auto px-4 py-8">

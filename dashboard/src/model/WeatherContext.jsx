@@ -4,9 +4,10 @@ const WeatherContext = createContext();
 
 export const WeatherProvider = ({ children }) => {
   const [selectedCityId, setSelectedCityId] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
-    <WeatherContext.Provider value={{ selectedCityId, setSelectedCityId }}>
+    <WeatherContext.Provider value={{ selectedCityId, setSelectedCityId,isAuthenticated, setIsAuthenticated }}>
       {children}
     </WeatherContext.Provider>
   );

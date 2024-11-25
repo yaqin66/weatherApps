@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import data from './kota.json';
 import { useWeather } from '../model/WeatherContext';
+import AkunProfile from '../model/AkunProfile';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const Navbar = () => {
   const [renderedResults, setRenderedResults] = useState([]);
   const [resultLimit, setResultLimit] = useState(10);
   const [showDropdown, setShowDropdown] = useState(false);
+
 
   const handleSearch = () => {
     if (query) {
@@ -59,6 +61,8 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  
+
   return (
     <div className="p-4 bg-white shadow">
       <div className="flex justify-between">
@@ -74,20 +78,24 @@ const Navbar = () => {
           onKeyDown={handleKeyDown}
           className="border p-2 rounded w-96 mr-6 ml-2 focus:outline-none"
         />
-        <div className="flex gap-24 justify-end">
-          <div 
+        <div className="flex items-center gap-4">
+          <div
             onClick={() => navigate('/')}
             className="border rounded p-2 ml-10 cursor-pointer hover:bg-gray-500 hover:text-white"
           >
             Home
           </div>
-          <div 
+          <div
             onClick={() => navigate('/report')}
             className="border rounded p-2 cursor-pointer hover:bg-gray-500 hover:text-white"
           >
             Reports
           </div>
+          <div className='items-center flex justify-center justify-items-center'>
+        <AkunProfile/>
         </div>
+        </div>
+       
       </div>
 
       {showDropdown && renderedResults.length > 0 && (
