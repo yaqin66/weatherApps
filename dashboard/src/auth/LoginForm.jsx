@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider } from './firebase/firebase-config';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  // const Swal = require('sweetalert2')
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,6 +36,31 @@ const LoginForm = () => {
       })
     }
   };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      sessionStorage.setItem('isAuthenticated', true);
+      sessionStorage.setItem('userEmail', user.email);
+      Swal.fire({
+        title: 'Success!',
+        text: `Selamat datang, ${user.displayName}!`,
+        icon: 'success',
+        confirmButtonText: 'Confirm'
+      })
+      setError('');
+      navigate('/'); // Redirect ke halaman Home
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Username or Password Wrong',
+        icon: 'error',
+        confirmButtonText: 'Try Again!'
+      })
+    }
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -81,6 +108,18 @@ const LoginForm = () => {
         >
           Login
         </button>
+        <div className="mt-4">
+        <button
+          onClick={handleGoogleLogin}
+          className="w-full px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+        >
+          Login with Google
+        </button>
+      </div>
+        <div className='flex gap-1 justify-center mt-2'>
+          <h1>Don't have an account?</h1>
+          <Link to='/register'>Register</Link>
+        </div>
       </form>
     </div>
   );

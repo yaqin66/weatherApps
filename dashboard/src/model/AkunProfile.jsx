@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LogOut } from 'lucide-react';
+import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
 const AkunProfile = () => {
@@ -12,7 +12,23 @@ const AkunProfile = () => {
   const handleLogout = () => {
     sessionStorage.removeItem('isAuthenticated');
     sessionStorage.removeItem('userEmail');
-    alert('Anda telah logout');
+    Swal.fire({
+        title: 'Logout',
+        text: 'Are you sure logout?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, I quit!"
+      }).then((result) => {
+        if (result.isConfirmed){
+            Swal.fire({
+                title: "Quit",
+                text: "You success quit.",
+                icon: "success"
+            });
+        }
+      });
     navigate('/login');
   };
 
@@ -47,7 +63,7 @@ const AkunProfile = () => {
       {isDropdownVisible && (
         <div
           id="profile-dropdown"
-          className="absolute -translate-x-1 translate-y-1 bg-white border p-2 rounded shadow-lg transition-all duration-300"
+          className="absolute -translate-x-8 translate-y-1 bg-white border p-2 rounded shadow-lg transition-all duration-300"
         >
           {username && <p className="mb-2 font-semibold">{username}</p>}
           <div
